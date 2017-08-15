@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.guangyao.bluetoothtest.activity.MainActivity"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/device_name_size"
+        android:gravity="center"
+        android:layout_gravity="center"
+
+       />
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/device_address"
+        android:layout_below="@id/device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/not_connected"
+        android:layout_gravity="center"
+        android:textColor="@color/colorAccent"
+        android:gravity="center"
+
+        />
+
+    <TextView
+        android:id="@+id/test_result"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:textSize="@dimen/result_size"
+        android:gravity="center"
+        />
+
+   <GridView
+       android:id="@+id/gridView"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_weight="1"
+       android:layout_alignParentBottom="true"
+       android:numColumns="3"
+       android:verticalSpacing="10dp"
+       >
+
+   </GridView>
+
+
+
+</LinearLayout>
