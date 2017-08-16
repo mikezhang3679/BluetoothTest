@@ -67,7 +67,7 @@ public class DataHandlerUtils {
 //            Log.i("zgy", String.valueOf(aByte&0xff));
         }
 
-        for (int i = 4; i < bytes.length; i++) {
+        for (int i = 2; i < bytes.length; i++) {
             if (i%2==0&&bytes.length%2==0){
                 datas.add((bytes[i]&0xff)+(bytes[i+1]&0xff)*256);
 

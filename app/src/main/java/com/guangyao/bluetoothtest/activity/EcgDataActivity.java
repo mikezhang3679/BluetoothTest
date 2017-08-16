@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.guangyao.bluetoothtest.view.PathView2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 
 /**
@@ -34,32 +36,56 @@ import java.util.List;
 
 public class EcgDataActivity extends AppCompatActivity {
     private final static String TAG = EcgDataActivity.class.getSimpleName();
+    private static final int DRAWPATH = 1;
+    private static final int DRAWPATH2 = 2;
 
     private TextView tv_ecgdata;
     private CommandManager manager;
     private String text = "";
     private int i;
     private ScrollView scrollView;
-    private Handler handler;
+
     private List<List<Integer>> totalList;
     private PathView2 pathView2;
     private List<PointBean> pointList;//左边的点集合
     private List<PointBean> pointList2;//右边的点集合
-    private List<Integer> y;//纵坐标集合(逐渐增多)
+    private List<Integer> y;//纵坐标集合(逐渐增多,满屏后清空)
     private int spacing=2;
     private int pointNum;//一个屏幕点的个数
     private int width;
+    private TextView heart;
+    private List<Integer> datasy;
+    private Timer timer;
+    private int count;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case DRAWPATH:
+                    DrawPath();
+                    handler.sendEmptyMessageDelayed(DRAWPATH,10);
+
+                case DRAWPATH2:
+//                    DrawPath();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ecgdata);
         manager = CommandManager.getInstance(this);
-        handler=new Handler();
         totalList=new ArrayList<>();
         tv_ecgdata = (TextView) findViewById(R.id.tv_ecgdata);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         pathView2 = (PathView2) findViewById(R.id.pathview2);
+        heart = (TextView) findViewById(R.id.heart);
         getSupportActionBar().setTitle(R.string.ecg_test_data);
 
         manager.startMeasureEcg();
@@ -122,7 +148,8 @@ public class EcgDataActivity extends AppCompatActivity {
 
                 //ac 01 心电图数据
                 if (datas.get(0)==172 && datas.get(1)==1){
-                    List<Integer> datasy = DataHandlerUtils.bytesToArrayListForEcg(txValue);//数据组成的纵坐标值
+                    //数据组成的纵坐标值
+                    datasy = DataHandlerUtils.bytesToArrayListForEcg(txValue);
                     if (datasy.size()>1){
                         i++;
                         totalList.add(datasy);
@@ -133,38 +160,22 @@ public class EcgDataActivity extends AppCompatActivity {
                     y.addAll(datasy);
                     Log.i("zgy",y.toString());
 
+//                    if (count==0){
+//                        handler.sendEmptyMessage(DRAWPATH);
+//                    }
+//                    count++;
 
-                    pointList.clear();
-                    pointList2.clear();
-
-
-                    for (int j = 0; j < y.size(); j++) {
-
-                        PointBean pointBean=new PointBean();
-                        pointBean.setX(j * spacing);
-                        pointBean.setY(y.get(j));
-
-                        pointList.add(pointBean);
-                        if (pointList2.size() > 0) {//第二个集合删除元素
-                            pointList2.remove(0);
-                        }
-                        pathView2.setData(pointList, pointList2);
-
-                        if (pointList.size() >= pointNum + 1) {
-                            Log.e("zgy", "越界");
-                            pointList2.addAll(pointList);
-                            y.clear();
-                        }
-
-                    }
-
-
+                    DrawPath();
 
 
                 }
 
                 //ac 02 心率数据
                 if (datas.get(0)==172 && datas.get(1)==2){
+                    Log.i(TAG,datas.toString());
+                    if (datas.get(3)!=0 ){
+                        heart.setText(String.valueOf(datas.get(3)));
+                    }
 
                 }
                 //ac 06 测量失败
@@ -174,12 +185,39 @@ public class EcgDataActivity extends AppCompatActivity {
                 }
                 //ac 05 测量完成
                 if (datas.get(0)==172 && datas.get(1)==5){
+                    timer.cancel();
                     Toast.makeText(EcgDataActivity.this,"测量完成",Toast.LENGTH_SHORT).show();
 
                 }
             }
         }
     };
+
+    private void DrawPath() {
+        pointList.clear();
+
+        for (int j = 0; j < y.size(); j++) {
+            PointBean pointBean=new PointBean();
+            pointBean.setX(j * spacing);
+            pointBean.setY(y.get(j));
+
+            pointList.add(pointBean);
+            if (j< datasy.size()){
+                if (pointList2.size() > 0) {//第二个集合删除元素
+                    pointList2.remove(0);
+                }
+            }
+
+            pathView2.setData(pointList, pointList2);
+
+            if (pointList.size() >= pointNum + 1) {
+                Log.e("zgy", "越界");
+                pointList2.addAll(pointList);
+                y.clear();
+            }
+
+        }
+    }
 
 
     private IntentFilter makeGattUpdateIntentFilter() {

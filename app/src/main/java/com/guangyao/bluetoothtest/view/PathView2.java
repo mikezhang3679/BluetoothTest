@@ -23,7 +23,7 @@ public class PathView2 extends View {
     private int width;
     private int height;
     private Paint paint;
-    private float mul_y = -0.45f;//纵坐标放大倍数
+    private float mul_y = -0.5f;//纵坐标放大倍数
     private float plus_y = -80;//纵坐标向上移
 
 

@@ -3,12 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.guangyao.bluetoothtest.view.PathView2
-        android:id="@+id/pathview2"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_height="250dp">
+        <com.guangyao.bluetoothtest.view.PathView2
+            android:id="@+id/pathview2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            />
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
