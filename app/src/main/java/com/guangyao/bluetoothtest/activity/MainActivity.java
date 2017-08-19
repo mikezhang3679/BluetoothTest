@@ -643,9 +643,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("zgy","mDeviceAddress"+ mDeviceAddress);
             if (!"".equals(mDeviceAddress)) {
                 Log.i("zgy","connect");
-                App.mBluetoothLeService.connect(mDeviceAddress);
-                App.isConnecting = true;
-                invalidateOptionsMenu();//显示正在连接 ...
+                if (App.BLE_ON){
+                    App.mBluetoothLeService.connect(mDeviceAddress);
+                    App.isConnecting = true;
+                    invalidateOptionsMenu();//显示正在连接 ...
+                }else {
+                    Toast.makeText(this,"请开启蓝牙",Toast.LENGTH_SHORT).show();
+                }
+
             }
                 break;
         }
