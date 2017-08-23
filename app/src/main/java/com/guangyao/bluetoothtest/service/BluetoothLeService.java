@@ -129,6 +129,8 @@ public class BluetoothLeService extends Service {
                 App.mConnected = true;
                 hasRecevieDisConnected = false;
 
+
+
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
