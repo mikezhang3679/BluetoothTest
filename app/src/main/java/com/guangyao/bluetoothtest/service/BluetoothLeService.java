@@ -129,6 +129,8 @@ public class BluetoothLeService extends Service {
                 App.mConnected = true;
                 hasRecevieDisConnected = false;
 
+
+
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
@@ -144,7 +146,11 @@ public class BluetoothLeService extends Service {
                             @Override
                             public void run() {
                                 Log.i(TAG, SPUtils.getString(getApplicationContext(), SPUtils.DEVICE_ADDRESS, ""));
-                                App.mBluetoothLeService.connect(SPUtils.getString(getApplicationContext(), SPUtils.DEVICE_ADDRESS, ""));
+                                    if (App.BLE_ON){
+                                        App.mBluetoothLeService.connect(SPUtils.getString(getApplicationContext(), SPUtils.DEVICE_ADDRESS, ""));
+                                    }else {
+                                        Log.i(TAG,"请开启蓝牙");
+                                    }
                             }
                         }, 2000, 4000);
 
@@ -443,8 +449,38 @@ public class BluetoothLeService extends Service {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BleConstans.ACTION_SEND_DATA_TO_BLE);
         LocalBroadcastManager.getInstance(this).registerReceiver(sendDataToBleReceiver, intentFilter);
-    }
 
+
+        //监听蓝牙开关
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        this.registerReceiver(bluetoothStatusChangeReceiver, filter);
+
+
+    }
+    private final BroadcastReceiver bluetoothStatusChangeReceiver
+            = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)){
+                if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
+                        == BluetoothAdapter.STATE_OFF){
+                    Log.i(TAG,"BluetoothAdapter.STATE_OFF 蓝牙关闭了");// 蓝牙关闭了
+                    App.BLE_ON=false;
+//                    devicesGatts.clear();
+//                    resetBluetooth();
+
+                } else if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
+                        == BluetoothAdapter.STATE_ON){
+//                    initBluetooth();
+                    App.BLE_ON=true;
+                    Log.i(TAG,"BluetoothAdapter.STATE_ON  蓝牙开启了");//// 蓝牙开启了
+
+                }
+            }
+        }
+    };
     @Override
     public void onDestroy() {
         super.onDestroy();

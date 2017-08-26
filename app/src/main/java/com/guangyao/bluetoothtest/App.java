@@ -1,6 +1,8 @@
 package com.guangyao.bluetoothtest;
 
 import android.app.Application;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -19,16 +21,24 @@ import de.greenrobot.event.EventBus;
  */
 
 public class App extends Application {
+    private final static String TAG = App.class.getSimpleName();
 
     public static BluetoothLeService mBluetoothLeService;
     public static boolean mConnected = false;
     public static boolean isConnecting = false;
+    public static boolean BLE_ON = false;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         bindBleService();
+
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = bluetoothManager.getAdapter();
+        BLE_ON=adapter.isEnabled();
+        Log.i(TAG,"BLE_ON   "+BLE_ON);
+
 
     }
 
