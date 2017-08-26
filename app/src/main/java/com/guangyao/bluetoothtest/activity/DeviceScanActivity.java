@@ -211,7 +211,10 @@ public class DeviceScanActivity extends AppCompatActivity {
                     Intent intent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(intent, REQUEST_ENABLE_BT);
                 }
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(R.string.avaliable_gps);
                     builder.setTitle(R.string.notify);
@@ -224,6 +227,8 @@ public class DeviceScanActivity extends AppCompatActivity {
                             startActivity(callGPSSettingIntent);
                         }
                     }).show();
+
+                     }
 
                 }
 
