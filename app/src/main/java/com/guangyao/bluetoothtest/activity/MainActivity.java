@@ -30,6 +30,7 @@ import com.guangyao.bluetoothtest.command.CommandManager;
 import com.guangyao.bluetoothtest.constans.Constans;
 import com.guangyao.bluetoothtest.service.BluetoothLeService;
 import com.guangyao.bluetoothtest.utils.DataHandlerUtils;
+import com.guangyao.bluetoothtest.utils.MyUtils;
 import com.guangyao.bluetoothtest.utils.SPUtils;
 
 import java.util.ArrayList;
@@ -383,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.search_ble:
 
 
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                if (!MyUtils.isOpenLocationService(mContext)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(R.string.avaliable_gps);
                     builder.setTitle(R.string.notify);
