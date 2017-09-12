@@ -120,7 +120,7 @@ public class CommandManager {
      * 下拉同步数据
      * @param timeInMillis 传入一个时间点，手环传这个时间点之后的整点数据过来
      * @param timeInMillis2 传入一个时间点，手环传这个时间点之后的运动模式数据过来
-     */
+
     public void setSyncData(long timeInMillis,long timeInMillis2) {//一个用于获取整点数据，一个用于获取运动模式数据
         DateModel dateModel = new DateModel(timeInMillis,timeInMillis2);
         byte[] data = new byte[18];
@@ -145,13 +145,34 @@ public class CommandManager {
         data[17] = (byte) (dateModel.second2);
 
         broadcastData(data);
-    }
+    }*/
 
+
+    /**
+     * 2.6  下拉同步数据   00 09 ff 51 80 00 10 0a 14 11 00
+     */
+    public void setSyncData(long timeInMillis) {
+        DateModel dateModel = new DateModel(timeInMillis);
+        byte[] data = new byte[12];
+        data[0] = (byte) 0xAB;
+        data[1] = (byte) 0;
+        data[2] = (byte) 9;
+        data[3] = (byte) 0xff;
+        data[4] = (byte) 0x51;
+        data[5] = (byte) 0x80;
+//        data[6] = (byte)0;//占位符，没意义
+        data[7] = (byte) ((dateModel.year - 2000));
+        data[8] = (byte) (dateModel.month);
+        data[9] = (byte) (dateModel.day);
+        data[10] = (byte) (dateModel.hour);
+        data[11] = (byte) (dateModel.minute);
+        broadcastData(data);
+    }
     /**
      * 下拉同步睡眠数据
      */
     public void setSyncSleepData(long timeInMillis) {
-        DateModel dateModel = new DateModel(timeInMillis,0);
+        DateModel dateModel = new DateModel(timeInMillis);
         byte[] data = new byte[10];
         data[0] = (byte) 0xAB;
         data[1] = (byte) 0;
@@ -621,7 +642,7 @@ public class CommandManager {
     }
 
     /**
-     * 一键测量
+     *   2.5 一键测量
      */
     public void oneKeyMeasure(int control) {
         byte[] bytes = new byte[7];
@@ -681,26 +702,7 @@ public class CommandManager {
         bytes[6] = (byte) control;//0顺时针 1逆时针 2停止
         broadcastData(bytes);
     }
-    /**
-     * 设置闹钟
-     */
-    public void setAlertClock(int id, int status, int hour, int minute, int repeat) {
-        byte[] data = new byte[11];
-        data[0] = (byte) 0xAB;
-        data[1] = (byte) 0;
-        data[2] = (byte)8;
-        //数据id + status 共 3 bytes
-        data[3] = (byte) 0xff;
-        data[4] = (byte) 0x73;
-        data[5] = (byte)0x80;
-        //数据值
-        data[6] = (byte) id;
-        data[7] = (byte) status;
-        data[8] = (byte) hour;
-        data[9] = (byte) minute;
-        data[10] = (byte) repeat ;
-        broadcastData(data);
-    }
+
 
 
 
@@ -733,6 +735,22 @@ public class CommandManager {
         bytes[1] = (byte) 0x01;
         broadcastData(bytes);
     }
+
+    /**
+     * 3.8 整点测量
+     */
+    public void hourlyMeasure(int control) {
+        byte[] bytes = new byte[7];
+        bytes[0] = (byte) 0xAB;
+        bytes[1] = (byte) 0;
+        bytes[2] = (byte) 4;
+        bytes[3] = (byte) 0xFF;
+        bytes[4] = (byte) 0x78;
+        bytes[5] = (byte) 0x80;
+        bytes[6] = (byte) control;
+        broadcastData(bytes);
+    }
+
     /**
      * @brief Broadcast intent with pointed bytes.
      * @param[in] bytes Array of byte to send on BLE.

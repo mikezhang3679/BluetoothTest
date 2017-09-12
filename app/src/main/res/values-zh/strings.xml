@@ -80,5 +80,6 @@
     <string name="end_m_0_59">结束M 0-59</string>
     <string name="repeat_0_10">次数 0-10</string>
     <string name="send">发送</string>
+    <string name="hourly_mearure">Hourly measure</string>
 
 </resources>

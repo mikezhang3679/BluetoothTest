@@ -11,18 +11,10 @@ public class DateModel {
     public int minute;
     public int second;
 
-    public int year2;
-    public int month2;
-    public int day2;
-    public int hour2;
-    public int minute2;
-    public int second2;
 
 
-
-    public DateModel(long timeInMillis,long timeInMillis2) {
+    public DateModel(long timeInMillis) {
         Calendar calendar = Calendar.getInstance();
-        Calendar calendar2 = Calendar.getInstance();
         //获取整点数据需要传入的时间
         calendar.setTimeInMillis(timeInMillis);
         year = calendar.get(Calendar.YEAR);
@@ -32,14 +24,6 @@ public class DateModel {
         minute = calendar.get(Calendar.MINUTE);
         second = calendar.get(Calendar.SECOND);
 
-        //获取运动模式数据需要传入的时间
-        calendar2.setTimeInMillis(timeInMillis2);
-        year2 = calendar2.get(Calendar.YEAR);
-        month2 = calendar2.get(Calendar.MONTH) + 1;
-        day2 = calendar2.get(Calendar.DAY_OF_MONTH);
-        hour2 = calendar2.get(Calendar.HOUR_OF_DAY);
-        minute2 = calendar2.get(Calendar.MINUTE);
-        second2 = calendar2.get(Calendar.SECOND);
 
 
     }

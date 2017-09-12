@@ -79,4 +79,5 @@
     <string name="end_m_0_59">endM 0-59</string>
     <string name="repeat_0_10">Kneel times 0-10</string>
     <string name="send">send</string>
+    <string name="hourly_mearure">Hourly measure</string>
 </resources>

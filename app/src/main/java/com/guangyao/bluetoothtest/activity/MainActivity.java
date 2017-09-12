@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
                             break;
                         case 10://pull_to_refresh
-                            manager.setSyncData(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000, System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000);
+                            manager.setSyncData(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000);//2.6
                             break;
 
                         case 11://摇摇拍照
@@ -323,6 +323,11 @@ public class MainActivity extends AppCompatActivity {
 
                             Intent intent2 = new Intent(MainActivity.this, PrayActivity.class);
                             startActivity(intent2);
+                            break;
+                        case 27:
+
+                            manager.hourlyMeasure(1);//3.8
+
                             break;
 
 
@@ -576,7 +581,6 @@ public class MainActivity extends AppCompatActivity {
         list.add(getString(R.string.bp_once));
         list.add(getString(R.string.bp_real_time));
 
-
         //加点
         list.add(getString(R.string.clockwise));
         list.add(getString(R.string.anti_clockwise));
@@ -586,6 +590,10 @@ public class MainActivity extends AppCompatActivity {
 
         //以色列祈祷app
         list.add(getString(R.string.pray));
+
+
+        list.add(getString(R.string.hourly_mearure));
+
 
         myAdapter = new MyAdapter(list);
         gridView.setAdapter(myAdapter);
