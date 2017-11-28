@@ -125,7 +125,7 @@ public class DeviceScanActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!bluetoothAdapter.isEnabled()) {
-            Intent intent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
+            Intent intent = new Intent(android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(intent, REQUEST_ENABLE_BT);
         }
 
