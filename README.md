@@ -7,7 +7,7 @@
 # English
   1.This demo contains a lot of instructions, you can run this demo, connect to our bracelet, and then test the function of the bracelet.
   
-###### [中文文档](https://github.com/XX-net/XX-Net/wiki/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3) &nbsp; &nbsp; &nbsp;[English](https://github.com/XX-net/XX-Net/wiki/English-Home-Page) &nbsp; &nbsp; &nbsp;
+###### [中文文档](https://github.com/JackZhang92/BluetoothTest/wiki/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3) &nbsp; &nbsp; &nbsp;[English](https://github.com/JackZhang92/BluetoothTest/wiki/English-Home-Page) &nbsp; &nbsp; &nbsp;
 									
 									
 									
