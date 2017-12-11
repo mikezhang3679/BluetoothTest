@@ -8,6 +8,8 @@
   
 # English
   1.This demo contains a lot of instructions, you can run this demo, connect to our bracelet, and then test the function of the bracelet.
+  2.If you want to make your own APP, you can also refer to our demo, which only needs to add the instructions you want
+  according to the bluetooth protocol. (The bluetooth instructions are all in the CommandManager class)
   
 
 									
