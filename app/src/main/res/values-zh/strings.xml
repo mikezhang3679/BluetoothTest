@@ -81,5 +81,6 @@
     <string name="repeat_0_10">次数 0-10</string>
     <string name="send">发送</string>
     <string name="hourly_mearure">Hourly measure</string>
+    <string name="boot_loader">bootLoader</string>
 
 </resources>

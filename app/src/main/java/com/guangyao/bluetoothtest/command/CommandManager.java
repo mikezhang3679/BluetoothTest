@@ -751,6 +751,19 @@ public class CommandManager {
         broadcastData(bytes);
     }
 
+
+    public void bootLoader(int control) {
+        byte[] bytes = new byte[7];
+        bytes[0] = (byte) 0xAB;
+        bytes[1] = (byte) 0;
+        bytes[2] = (byte) 4;
+        bytes[3] = (byte) 0xFF;
+        bytes[4] = (byte) 0x25;
+        bytes[5] = (byte) 0x80;
+        bytes[6] = (byte) control;
+        broadcastData(bytes);
+    }
+
     /**
      * @brief Broadcast intent with pointed bytes.
      * @param[in] bytes Array of byte to send on BLE.

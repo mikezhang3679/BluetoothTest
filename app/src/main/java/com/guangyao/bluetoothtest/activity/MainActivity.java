@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.guangyao.bluetoothtest.App;
 import com.guangyao.bluetoothtest.R;
-import com.guangyao.bluetoothtest.bean.BaseEvent;
 import com.guangyao.bluetoothtest.command.CommandManager;
 import com.guangyao.bluetoothtest.constans.Constans;
 import com.guangyao.bluetoothtest.service.BluetoothLeService;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EventBus.getDefault().register(this);
         mContext=this;
         manager = CommandManager.getInstance(this);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -327,6 +325,13 @@ public class MainActivity extends AppCompatActivity {
                         case 27:
 
                             manager.hourlyMeasure(1);//3.8
+
+                            break;
+
+
+                          case 28:
+
+                            manager.bootLoader(1);
 
                             break;
 
@@ -593,6 +598,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         list.add(getString(R.string.hourly_mearure));
+        list.add(getString(R.string.boot_loader));
 
 
         myAdapter = new MyAdapter(list);
@@ -644,27 +650,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void onEventMainThread(BaseEvent baseEvent) {
-//        switch (baseEvent.getEventType()){
-//            case ONSERVICECONNECTED:
-//               Log.i("zgy","ONSERVICECONNECTED");
-//
-//                Log.i("zgy","mDeviceAddress"+ mDeviceAddress);
-//            if (!"".equals(mDeviceAddress)) {
-//                Log.i("zgy","connect");
-//                if (App.BLE_ON){
-//                    App.mBluetoothLeService.connect(mDeviceAddress);
-//                    App.isConnecting = true;
-//                    invalidateOptionsMenu();//显示正在连接 ...
-//                }else {
-//                    Toast.makeText(this,"请开启蓝牙",Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//                break;
-//        }
 
-    }
 
 
     @Override

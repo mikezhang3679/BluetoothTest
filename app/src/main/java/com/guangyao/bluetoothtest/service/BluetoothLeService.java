@@ -41,7 +41,6 @@ import com.guangyao.bluetoothtest.SampleGattAttributes;
 import com.guangyao.bluetoothtest.constans.BleConstans;
 import com.guangyao.bluetoothtest.constans.Constans;
 import com.guangyao.bluetoothtest.utils.DataHandlerUtils;
-import com.guangyao.bluetoothtest.utils.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,8 +107,6 @@ public class BluetoothLeService extends Service {
     private int TIME_OUT_LIMIT = 100;
     public ArrayList<byte[]> data_queue = new ArrayList<>();
     boolean sendingStoredData = false;
-    private Timer timer;
-    private boolean hasRecevieDisConnected;
 
 
     // Implements callback methods for GATT events that the app cares about.  For example,
@@ -119,43 +116,23 @@ public class BluetoothLeService extends Service {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String intentAction;
             if (newState == BluetoothProfile.STATE_CONNECTED) {
+                App.mConnected = true;
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
                 broadcastUpdate(intentAction);
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start com.wakeup.bluetoothtest.service discovery:" +
                         mBluetoothGatt.discoverServices());
-                if (timer != null) timer.cancel();
-                App.mConnected = true;
-                hasRecevieDisConnected = false;
 
 
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                App.mConnected = false;
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 broadcastUpdate(intentAction);
-                App.mConnected = false;
-                App.mBluetoothLeService.close();
-                if (!hasRecevieDisConnected) {
-                    hasRecevieDisConnected = true;
-                    if (!"".equals(SPUtils.getString(getApplicationContext(), SPUtils.DEVICE_ADDRESS, ""))) {
-                        //开启一个定时器
-                        timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                Log.i(TAG, SPUtils.getString(getApplicationContext(), SPUtils.DEVICE_ADDRESS, ""));
-                                    if (App.BLE_ON){
-                                        App.mBluetoothLeService.connect(SPUtils.getString(getApplicationContext(), SPUtils.DEVICE_ADDRESS, ""));
-                                    }else {
-                                        Log.i(TAG,"请开启蓝牙");
-                                    }
-                            }
-                        }, 2000, 4000);
+                close();
 
-                    }
-                }
 
 
             }
